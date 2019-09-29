@@ -1,0 +1,28 @@
+In order to rebuild from STM32CubeMX:
+
+1. Start a project using an ST board
+
+2. In Project Manager
+    a) name it to the repo name of this project
+    b) change the toolchain IDE to "STM32CubeIDE"
+
+3. Change the settings as follow, noting that no other devices (such as USART2, etc) should be enabled
+  - Enable Connectivity / USART1 / Asynchronous
+  -- Parameter Settings / Baud Rate / 9600
+  -- NVIC Settings / USART1 Global Interrupt / Enabled
+  - Enable Connectivity / I2C1 / I2C
+  -- NVIC Settings / I2C1 Event Interrupt / Enabled
+  - Enable Timers / LPTIM1 / Mode / Count Internal Events
+  -- NVIC Settings / LPTIM1 Global Interrupt / Enabled
+
+4. File / Generate Report, then File / Save
+
+5. Generate Code, and then do the manual work to merge:
+   inc/event.h
+   src/event.c
+   src/example.c
+   inc/main.h
+   src/main.c
+   src/stm32l4xx_it.c
+   src/stm32l4xx_hal_msp.c
+
