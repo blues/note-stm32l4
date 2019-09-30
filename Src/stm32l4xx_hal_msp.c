@@ -118,8 +118,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* huart) {
 
 }
 
-
-// Deinitialize all low power timers
+// Initialize all low power timers
 #ifdef EVENT_TIMER
 void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* hlptim) {
 

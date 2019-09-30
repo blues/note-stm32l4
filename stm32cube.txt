@@ -9,6 +9,8 @@ In order to rebuild from STM32CubeMX:
 3. Change the settings as follow, noting that no other devices (such as USART2, etc) should be enabled
   - Enable Connectivity / USART1 / Asynchronous
   -- Parameter Settings / Baud Rate / 9600
+  -- Parameter Settings / Word Length / 8 Bits
+  -- Parameter Settings / Parity / None
   -- NVIC Settings / USART1 Global Interrupt / Enabled
   - Enable Connectivity / I2C1 / I2C
   -- NVIC Settings / I2C1 Event Interrupt / Enabled
