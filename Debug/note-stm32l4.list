@@ -10516,7 +10516,7 @@ void setup() {
 	// "NoteNewRequest()" uses the bundled "J" json package to allocate a "req", which is a JSON object
 	// for the request to which we will then add Request arguments.  The function allocates a "req"
 	// request structure using malloc() and initializes its "req" field with the type of request.
-	J *req = NoteNewRequest("service.set");
+	J *req = NoteNewRequest("hub.set");
  800418e:	480a      	ldr	r0, [pc, #40]	; (80041b8 <setup+0x30>)
  8004190:	f003 fbde 	bl	8007950 <NoteNewRequest>
  8004194:	6078      	str	r0, [r7, #4]
