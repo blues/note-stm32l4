@@ -53,7 +53,7 @@ void setup() {
 
 	// This command (required) causes the data to be delivered to the Project on notehub.io that has claimed
 	// this Product ID.  (see above)
-	if (myProductID[0]) {
+	if (PRODUCT_UID[0]) {
 		JAddStringToObject(req, "product", myProductID);
 	}
 	// This command determines how often the Notecard connects to the service.  If "continuous" the Notecard
