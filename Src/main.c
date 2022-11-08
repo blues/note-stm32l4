@@ -40,11 +40,11 @@ void MX_USART1_UART_Init(void);
 #ifdef EVENT_TIMER
 void MX_LPTIM1_Init(void);
 #endif
-void noteSerialReset(void);
+bool noteSerialReset(void);
 void noteSerialTransmit(uint8_t *text, size_t len, bool flush);
 bool noteSerialAvailable(void);
 char noteSerialReceive(void);
-void noteI2CReset(uint16_t DevAddress);
+bool noteI2CReset(uint16_t DevAddress);
 size_t noteDebugSerialOutput(const char *message);
 const char *noteI2CTransmit(uint16_t DevAddress, uint8_t* pBuffer, uint16_t Size);
 const char *noteI2CReceive(uint16_t DevAddress, uint8_t* pBuffer, uint16_t Size, uint32_t *avail);
@@ -414,9 +414,11 @@ void MY_Sleep_DeInit() {
 }
 
 // Serial port reset procedure, called before any I/O and called again upon I/O error
-void noteSerialReset() {
+bool noteSerialReset() {
     MX_USART1_UART_DeInit();
     MX_USART1_UART_Init();
+
+    return true;
 }
 
 // Serial write data function
@@ -443,9 +445,11 @@ char noteSerialReceive() {
 }
 
 // I2C reset procedure, called before any I/O and called again upon I/O error
-void noteI2CReset(uint16_t DevAddress) {
+bool noteI2CReset(uint16_t DevAddress) {
     MX_I2C1_DeInit();
     MX_I2C1_Init();
+
+    return true;
 }
 
 // Transmits in master mode an amount of data, in blocking mode.     The address
@@ -463,7 +467,7 @@ const char *noteI2CTransmit(uint16_t DevAddress, uint8_t* pBuffer, uint16_t Size
         HAL_StatusTypeDef err_code = HAL_I2C_Master_Transmit(&hi2c1, DevAddress<<1, writebuf, writelen, 250);
         free(writebuf);
         if (err_code != HAL_OK) {
-            errstr = "i2c: write error";
+            errstr = "i2c: HAL_I2C_Master_Transmit error";
         }
     }
     return errstr;
@@ -484,7 +488,7 @@ const char *noteI2CReceive(uint16_t DevAddress, uint8_t* pBuffer, uint16_t Size,
             errstr = NULL;
             break;
         }
-        errstr = "i2c: write error";
+        errstr = "i2c: HAL_I2C_Master_Transmit error";
     }
 
     // Only receive if we successfully began transmission
@@ -497,7 +501,7 @@ const char *noteI2CReceive(uint16_t DevAddress, uint8_t* pBuffer, uint16_t Size,
         } else {
             err_code = HAL_I2C_Master_Receive(&hi2c1, DevAddress<<1, readbuf, readlen, 10);
             if (err_code != HAL_OK) {
-                errstr = "i2c: read error";
+                errstr = "i2c: HAL_I2C_Master_Receive error";
             } else {
                 uint8_t availbyte = readbuf[0];
                 uint8_t goodbyte = readbuf[1];
